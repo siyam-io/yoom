@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner"
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 
-
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const roboto = Roboto({
+  weight: ['400', '500', '700'],
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
@@ -24,7 +18,6 @@ export const metadata: Metadata = {
     icon: "/icons/logo.svg",
   },
 };
-
 
 export default function RootLayout({
   children,
@@ -37,19 +30,28 @@ export default function RootLayout({
         appearance={{
           layout: {
             socialButtonsVariant: "iconButton",
-            logoImageUrl: "/icons/yoom-logo.svg",
+            logoImageUrl: "/icons/logo.svg",
           },
           variables: {
-            colorText: "#fff",
-            colorPrimary: "#0E78F9",
-            colorBackground: "#1C1F2E",
-            colorInputBackground: "#252A41",
-            colorInputText: "#fff",
+            colorText: "#1C1B1F",
+            colorPrimary: "#6750A4",
+            colorBackground: "#FFFBFE",
+            colorInputBackground: "#E7E0EC",
+            colorInputText: "#1C1B1F",
+            colorDanger: "#B3261E",
           },
+          elements: {
+            card: "shadow-lg border-0 rounded-[24px] bg-md-surface-container",
+            formButtonPrimary: "rounded-full transition-all duration-300 active:scale-95 shadow-sm hover:shadow-md",
+            socialButtonsBlockButton: "border-md-outline text-md-on-bg rounded-full",
+            formFieldInput: "rounded-t-lg rounded-b-none border-0 border-b-2 border-md-outline bg-md-surface-container-low h-14 focus:ring-0 focus:border-b-md-primary",
+            formFieldLabel: "text-md-on-surface-variant font-medium",
+            footerActionLink: "text-md-primary hover:text-md-primary/80 font-medium",
+          }
         }}
       >
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
+          className={`${roboto.variable} antialiased`}
         >
           {children}
           <Toaster />

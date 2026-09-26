@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion, Variants } from "framer-motion";
 
 import HomeCard from "./HomeCard";
 import MeetingModal from "./MeetingModal";
@@ -21,6 +22,21 @@ const initialValues = {
   dateTime: new Date(),
   description: "",
   link: "",
+};
+
+const container: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
 };
 
 const MeetingTypeList = () => {
@@ -70,34 +86,48 @@ const MeetingTypeList = () => {
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
 
   return (
-    <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-      <HomeCard
-        img="/icons/add-meeting.svg"
-        title="New Meeting"
-        description="Start an instant meeting"
-        handleClick={() => setMeetingState("isInstantMeeting")}
-      />
-      <HomeCard
-        img="/icons/join-meeting.svg"
-        title="Join Meeting"
-        description="via invitation link"
-        className="bg-blue-1"
-        handleClick={() => setMeetingState("isJoiningMeeting")}
-      />
-      <HomeCard
-        img="/icons/schedule.svg"
-        title="Schedule Meeting"
-        description="Plan your meeting"
-        className="bg-purple-1"
-        handleClick={() => setMeetingState("isScheduleMeeting")}
-      />
-      <HomeCard
-        img="/icons/recordings.svg"
-        title="View Recordings"
-        description="Meeting Recordings"
-        className="bg-yellow-1"
-        handleClick={() => router.push("/recordings")}
-      />
+    <motion.section 
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4"
+    >
+      <motion.div variants={item}>
+        <HomeCard
+          img="/icons/add-meeting.svg"
+          title="New Meeting"
+          description="Start an instant meeting"
+          className="bg-md-primary/10 border-md-primary/20"
+          handleClick={() => setMeetingState("isInstantMeeting")}
+        />
+      </motion.div>
+      <motion.div variants={item}>
+        <HomeCard
+          img="/icons/join-meeting.svg"
+          title="Join Meeting"
+          description="via invitation link"
+          className="bg-md-secondary/10 border-md-secondary/20"
+          handleClick={() => setMeetingState("isJoiningMeeting")}
+        />
+      </motion.div>
+      <motion.div variants={item}>
+        <HomeCard
+          img="/icons/schedule.svg"
+          title="Schedule Meeting"
+          description="Plan your meeting"
+          className="bg-md-tertiary/10 border-md-tertiary/20"
+          handleClick={() => setMeetingState("isScheduleMeeting")}
+        />
+      </motion.div>
+      <motion.div variants={item}>
+        <HomeCard
+          img="/icons/recordings.svg"
+          title="View Recordings"
+          description="Meeting Recordings"
+          className="bg-md-error/10 border-md-error/20"
+          handleClick={() => router.push("/recordings")}
+        />
+      </motion.div>
 
       {!callDetail ? (
         <MeetingModal
@@ -107,18 +137,18 @@ const MeetingTypeList = () => {
           handleClick={createMeeting}
         >
           <div className="flex flex-col gap-2.5">
-            <label className="text-base font-normal leading-[22.4px] text-sky-2">
+            <label className="text-sm font-bold leading-none text-md-on-surface-variant peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               Add a description
             </label>
             <Textarea
-              className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="bg-md-surface-container-low border-md-outline/20 text-md-on-surface rounded-xl focus:border-md-primary focus:ring-1 focus:ring-md-primary transition-all duration-300 min-h-[100px]"
               onChange={(e) =>
                 setValues({ ...values, description: e.target.value })
               }
             />
           </div>
           <div className="flex w-full flex-col gap-2.5">
-            <label className="text-base font-normal leading-[22.4px] text-sky-2">
+            <label className="text-sm font-bold leading-none text-md-on-surface-variant peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
               Select Date and Time
             </label>
             <DatePicker
@@ -129,7 +159,7 @@ const MeetingTypeList = () => {
               timeIntervals={15}
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm aa"
-              className="w-full rounded bg-dark-3 p-2 focus:outline-none"
+              className="w-full rounded-xl bg-md-surface-container-low border border-md-outline/20 text-md-on-surface p-3 focus:outline-none focus:border-md-primary focus:ring-1 focus:ring-md-primary transition-all duration-300"
             />
           </div>
         </MeetingModal>
@@ -140,7 +170,7 @@ const MeetingTypeList = () => {
           title="Meeting Created"
           handleClick={() => {
             navigator.clipboard.writeText(meetingLink);
-            toast( "Link Copied" );
+            toast("Link Copied");
           }}
           image={"/icons/checked.svg"}
           buttonIcon="/icons/copy.svg"
@@ -160,7 +190,7 @@ const MeetingTypeList = () => {
         <Input
           placeholder="Meeting link"
           onChange={(e) => setValues({ ...values, link: e.target.value })}
-          className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="bg-md-surface-container-low border-md-outline/20 text-md-on-surface rounded-xl py-6 px-4 text-center focus:border-md-primary focus:ring-1 focus:ring-md-primary transition-all duration-300"
         />
       </MeetingModal>
 
@@ -172,7 +202,7 @@ const MeetingTypeList = () => {
         buttonText="Start Meeting"
         handleClick={createMeeting}
       />
-    </section>
+    </motion.section>
   );
 };
 

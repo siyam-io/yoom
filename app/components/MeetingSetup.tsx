@@ -59,22 +59,25 @@ const MeetingSetup = ({
     );
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-3 text-white">
-      <h1 className="text-center text-2xl font-bold">Setup</h1>
-      <VideoPreview />
-      <div className="flex h-16 items-center justify-center gap-3">
-        <label className="flex items-center justify-center gap-2 font-medium">
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-6 text-md-on-bg bg-md-bg">
+      <h1 className="text-center text-3xl font-extrabold text-md-on-bg tracking-tight">Setup</h1>
+      <div className="rounded-3xl overflow-hidden shadow-lg border border-md-outline/10 bg-md-surface-container w-full max-w-2xl">
+        <VideoPreview />
+      </div>
+      <div className="flex h-16 items-center justify-center gap-6 mt-4">
+        <label className="flex items-center justify-center gap-3 font-bold text-md-on-surface-variant cursor-pointer">
           <input
             type="checkbox"
             checked={isMicCamToggled}
             onChange={(e) => setIsMicCamToggled(e.target.checked)}
+            className="w-5 h-5 accent-md-primary"
           />
           Join with mic and camera off
         </label>
         <DeviceSettings />
       </div>
       <Button
-        className="rounded-md bg-green-500 px-4 py-2.5"
+        className="rounded-full bg-md-primary text-md-on-primary hover:bg-md-primary/90 px-10 py-7 font-bold text-lg mt-6 shadow-md active:scale-95 transition-all duration-300"
         onClick={() => {
           call.join();
 

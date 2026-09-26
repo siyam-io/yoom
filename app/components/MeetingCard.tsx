@@ -29,17 +29,19 @@ const MeetingCard = ({
   buttonText,
 }: MeetingCardProps) => {
   return (
-    <section className="flex min-h-[258px] w-full flex-col justify-between rounded-[14px] bg-dark-1 px-5 py-8 xl:max-w-[568px]">
-      <article className="flex flex-col gap-5">
-        <Image src={icon} alt="upcoming" width={28} height={28} />
+    <section className="flex min-h-[258px] w-full flex-col justify-between rounded-[32px] bg-md-surface-container-low px-6 py-8 shadow-sm border border-md-outline/10 text-md-on-surface hover:shadow-md transition-shadow duration-300 xl:max-w-[568px]">
+      <article className="flex flex-col gap-6">
+        <div className="bg-md-primary/10 w-fit p-3 rounded-2xl">
+          <Image src={icon} alt="upcoming" width={28} height={28} className="brightness-0 opacity-80" />
+        </div>
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-bold">{title}</h1>
-            <p className="text-base font-normal">{date}</p>
+            <h1 className="text-2xl font-bold text-md-on-surface tracking-tight">{title}</h1>
+            <p className="text-base font-medium text-md-on-surface-variant">{date}</p>
           </div>
         </div>
       </article>
-      <article className={cn("flex justify-center relative", {})}>
+      <article className={cn("flex justify-center relative mt-8", {})}>
         <div className="relative flex w-full max-sm:hidden">
           {avatarImages.map((img, index) => (
             <Image
@@ -48,19 +50,19 @@ const MeetingCard = ({
               alt="attendees"
               width={40}
               height={40}
-              className={cn("rounded-full", { absolute: index > 0 })}
+              className={cn("rounded-full border-[3px] border-md-surface-container-low", { absolute: index > 0 })}
               style={{ top: 0, left: index * 28 }}
             />
           ))}
-          <div className="flex-center absolute left-[136px] size-10 rounded-full border-[5px] border-dark-3 bg-dark-4">
+          <div className="flex-center absolute left-[136px] size-10 rounded-full border-[3px] border-md-surface-container-low bg-md-surface-container-high text-md-on-surface text-sm font-bold shadow-sm">
             +5
           </div>
         </div>
         {!isPreviousMeeting && (
-          <div className="flex gap-2 w-full">
-            <Button onClick={handleClick} className="rounded bg-blue-1 px-6">
+          <div className="flex gap-3 w-full">
+            <Button onClick={handleClick} className="rounded-full bg-md-primary text-md-on-primary hover:bg-md-primary/90 px-8 py-6 font-bold text-base active:scale-95 transition-all duration-300 shadow-sm flex-1 max-w-[200px]">
               {buttonIcon1 && (
-                <Image src={buttonIcon1} alt="feature" width={20} height={20} />
+                <Image src={buttonIcon1} alt="feature" width={20} height={20} className="brightness-0 invert" />
               )}
               &nbsp; {buttonText}
             </Button>
@@ -69,13 +71,14 @@ const MeetingCard = ({
                 navigator.clipboard.writeText(link);
                 toast("Link Copied");
               }}
-              className="bg-dark-4 px-6"
+              className="rounded-full bg-md-surface-container-high text-md-on-surface hover:bg-md-on-surface-variant/10 border border-md-outline/20 px-8 py-6 font-bold text-base active:scale-95 transition-all duration-300 flex-1 max-w-[200px]"
             >
               <Image
                 src="/icons/copy.svg"
                 alt="feature"
                 width={20}
                 height={20}
+                className="brightness-0 opacity-80"
               />
               &nbsp; Copy Link
             </Button>

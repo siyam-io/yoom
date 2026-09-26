@@ -19,9 +19,11 @@ const MeetingPage = () => {
   if (!isLoaded || isCallLoading) return <Loader />;
 
   if (!call) return (
-    <p className="text-center text-3xl font-bold text-white">
-      Call Not Found
-    </p>
+    <div className="flex h-screen w-full items-center justify-center bg-md-bg">
+      <p className="text-center text-3xl font-extrabold text-md-on-bg">
+        Call Not Found
+      </p>
+    </div>
   );
 
   // get more info about custom call type:  https://getstream.io/video/docs/react/guides/configuring-call-types/
