@@ -14,21 +14,21 @@ const Home = () => {
   );
 
   return (
-    <section className="flex size-full flex-col gap-10 text-md-on-bg">
-      <div className="h-[300px] w-full rounded-[32px] bg-md-primary/10 relative overflow-hidden border border-md-outline/10 shadow-sm">
+    <section className="flex size-full flex-col gap-6 sm:gap-10 text-md-on-bg">
+      <div className="h-[230px] sm:h-[300px] w-full rounded-2xl sm:rounded-[32px] bg-md-primary/10 relative overflow-hidden border border-md-outline/10 shadow-sm">
         {/* Background Decorative Shapes */}
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-md-primary/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-md-secondary/20 rounded-full blur-3xl" />
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-md-primary/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-md-secondary/20 rounded-full blur-3xl pointer-events-none" />
         
-        <div className="flex h-full flex-col justify-between max-md:px-5 max-md:py-8 lg:p-11 relative z-10">
-          <h2 className="bg-md-surface-container/60 backdrop-blur-md max-w-[270px] rounded-full px-6 py-2 text-center text-sm font-bold text-md-on-surface shadow-sm">
+        <div className="flex h-full flex-col justify-between p-5 sm:p-8 lg:p-11 relative z-10">
+          <h2 className="bg-md-surface-container/60 backdrop-blur-md max-w-[270px] rounded-full px-4 sm:px-6 py-1.5 sm:py-2 text-center text-xs sm:text-sm font-bold text-md-on-surface shadow-sm">
             Upcoming Meeting at: 12:30 PM
           </h2>
-          <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-extrabold lg:text-7xl tracking-tighter text-md-primary">
+          <div className="flex flex-col gap-1 sm:gap-2">
+            <h1 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tighter text-md-primary">
               {time}
             </h1>
-            <p className="text-lg font-bold text-md-on-surface-variant lg:text-2xl">
+            <p className="text-sm sm:text-lg font-bold text-md-on-surface-variant lg:text-2xl">
               {date}
             </p>
           </div>

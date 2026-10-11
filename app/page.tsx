@@ -63,7 +63,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: [0.2, 0, 0, 1] }}
-            className="text-5xl md:text-7xl lg:text-[84px] font-extrabold tracking-tighter max-w-5xl leading-[1.1] mb-8 text-md-on-bg"
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-extrabold tracking-tighter max-w-5xl leading-[1.1] mb-6 sm:mb-8 text-md-on-bg"
           >
             Video meetings that feel <span className="text-md-primary">magical.</span>
           </motion.h1>
@@ -72,7 +72,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: [0.2, 0, 0, 1] }}
-            className="text-xl md:text-2xl text-md-on-surface-variant max-w-3xl mb-12 leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl text-md-on-surface-variant max-w-3xl mb-10 sm:mb-12 leading-relaxed"
           >
             Crystal clear audio, zero latency video, and a stunning interface. YOOM brings your team together like never before, natively built on Material You.
           </motion.p>
@@ -81,15 +81,15 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3, ease: [0.2, 0, 0, 1] }}
-            className="flex flex-col sm:flex-row items-center gap-4"
+            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
           >
-            <Link href="/dashboard">
-              <Button className="bg-md-primary text-md-on-primary hover:bg-md-primary/90 active:bg-md-primary/80 rounded-full px-10 py-7 h-auto text-lg font-bold shadow-md hover:shadow-lg active:scale-95 transition-all duration-300">
+            <Link href="/dashboard" className="w-full sm:w-auto">
+              <Button className="bg-md-primary text-md-on-primary hover:bg-md-primary/90 active:bg-md-primary/80 rounded-full px-8 py-5 sm:px-10 sm:py-7 h-auto text-base sm:text-lg font-bold shadow-md hover:shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto">
                 Launch Dashboard
               </Button>
             </Link>
-            <Link href="/features">
-              <Button variant="outline" className="rounded-full px-10 py-7 h-auto text-lg font-bold bg-transparent border-md-outline/30 text-md-on-surface-variant hover:bg-md-on-surface-variant/5 active:scale-95 transition-all duration-300">
+            <Link href="/features" className="w-full sm:w-auto">
+              <Button variant="outline" className="rounded-full px-8 py-5 sm:px-10 sm:py-7 h-auto text-base sm:text-lg font-bold bg-transparent border-md-outline/30 text-md-on-surface-variant hover:bg-md-on-surface-variant/5 active:scale-95 transition-all duration-300 w-full sm:w-auto">
                 Discover Features
               </Button>
             </Link>

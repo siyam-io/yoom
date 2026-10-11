@@ -59,28 +59,31 @@ const MeetingCard = ({
           </div>
         </div>
         {!isPreviousMeeting && (
-          <div className="flex gap-3 w-full">
-            <Button onClick={handleClick} className="rounded-full bg-md-primary text-md-on-primary hover:bg-md-primary/90 px-8 py-6 font-bold text-base active:scale-95 transition-all duration-300 shadow-sm flex-1 max-w-[200px]">
+          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full">
+            <Button
+              onClick={handleClick}
+              className="rounded-full bg-md-primary text-md-on-primary hover:bg-md-primary/90 px-5 py-2.5 sm:px-8 sm:py-6 font-bold text-sm sm:text-base active:scale-95 transition-all duration-300 shadow-sm flex-1 sm:max-w-[200px] h-auto cursor-pointer"
+            >
               {buttonIcon1 && (
-                <Image src={buttonIcon1} alt="feature" width={20} height={20} className="brightness-0 invert" />
+                <Image src={buttonIcon1} alt="feature" width={18} height={18} className="brightness-0 invert mr-1.5" />
               )}
-              &nbsp; {buttonText}
+              {buttonText}
             </Button>
             <Button
               onClick={() => {
                 navigator.clipboard.writeText(link);
                 toast("Link Copied");
               }}
-              className="rounded-full bg-md-surface-container-high text-md-on-surface hover:bg-md-on-surface-variant/10 border border-md-outline/20 px-8 py-6 font-bold text-base active:scale-95 transition-all duration-300 flex-1 max-w-[200px]"
+              className="rounded-full bg-md-surface-container-high text-md-on-surface hover:bg-md-on-surface-variant/10 border border-md-outline/20 px-5 py-2.5 sm:px-8 sm:py-6 font-bold text-sm sm:text-base active:scale-95 transition-all duration-300 flex-1 sm:max-w-[200px] h-auto cursor-pointer flex items-center justify-center gap-1.5"
             >
               <Image
                 src="/icons/copy.svg"
-                alt="feature"
-                width={20}
-                height={20}
+                alt="copy"
+                width={18}
+                height={18}
                 className="brightness-0 opacity-80"
               />
-              &nbsp; Copy Link
+              <span>Copy Link</span>
             </Button>
           </div>
         )}

@@ -35,7 +35,7 @@ const Table = ({
           className="w-full bg-md-bg border border-md-outline/20 focus:border-md-primary rounded-xl px-4 py-2.5 outline-none text-md-on-bg font-semibold text-sm lg:text-lg shadow-sm transition-all focus:ring-2 focus:ring-md-primary/20"
         />
       ) : (
-        <h1 className="truncate text-sm font-semibold max-sm:max-w-[320px] lg:text-lg text-md-on-surface">
+        <h1 className="break-all text-xs sm:text-sm md:text-base font-semibold text-md-on-surface select-all">
           {description}
         </h1>
       )}
@@ -77,13 +77,13 @@ const PersonalRoom = () => {
   const inviteText = `Join my Personal Meeting Room\nTopic: ${topic}\nLink: ${meetingLink}`;
 
   return (
-    <section className="flex size-full flex-col gap-10 text-md-on-bg">
+    <section className="flex size-full flex-col gap-8 sm:gap-10 text-md-on-bg">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-extrabold lg:text-4xl text-md-on-bg tracking-tight">Personal Meeting Room</h1>
-        <p className="text-md-on-surface-variant text-base">Your dedicated, permanent meeting space. Share this link for instant meetings.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold lg:text-4xl text-md-on-bg tracking-tight">Personal Meeting Room</h1>
+        <p className="text-md-on-surface-variant text-sm sm:text-base">Your dedicated, permanent meeting space. Share this link for instant meetings.</p>
       </div>
       
-      <div className="flex w-full flex-col gap-4 xl:max-w-[900px]">
+      <div className="flex w-full flex-col gap-3 sm:gap-4 xl:max-w-[900px]">
         <Table 
           title="Topic" 
           isEditable={true} 
@@ -94,12 +94,12 @@ const PersonalRoom = () => {
         <Table title="Invite Link" description={meetingLink} />
       </div>
       
-      <div className="flex gap-4 pt-4">
-        <Button className="bg-md-primary text-md-on-primary hover:bg-md-primary/90 rounded-full px-8 py-6 shadow-md active:scale-95 transition-all duration-300 font-bold text-lg" onClick={startRoom}>
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
+        <Button className="bg-md-primary text-md-on-primary hover:bg-md-primary/90 rounded-full px-6 py-3.5 sm:px-8 sm:py-6 shadow-md active:scale-95 transition-all duration-300 font-bold text-base sm:text-lg w-full sm:w-auto" onClick={startRoom}>
           Start Meeting
         </Button>
         <Button
-          className="bg-md-surface-container-low text-md-on-surface-variant hover:bg-md-on-surface-variant/10 hover:text-md-on-surface rounded-full px-8 py-6 border border-md-outline/20 active:scale-95 transition-all duration-300 font-bold text-lg shadow-sm"
+          className="bg-md-surface-container-low text-md-on-surface-variant hover:bg-md-on-surface-variant/10 hover:text-md-on-surface rounded-full px-6 py-3.5 sm:px-8 sm:py-6 border border-md-outline/20 active:scale-95 transition-all duration-300 font-bold text-base sm:text-lg shadow-sm w-full sm:w-auto"
           onClick={() => {
             navigator.clipboard.writeText(inviteText);
             toast("Invitation Copied to Clipboard");

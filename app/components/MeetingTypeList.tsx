@@ -125,7 +125,7 @@ const MeetingTypeList = () => {
           title="View Recordings"
           description="Meeting Recordings"
           className="bg-md-error/10 border-md-error/20"
-          handleClick={() => router.push("/recordings")}
+          handleClick={() => router.push("/dashboard/recordings")}
         />
       </motion.div>
 

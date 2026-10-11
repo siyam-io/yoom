@@ -59,32 +59,34 @@ const MeetingSetup = ({
     );
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-6 text-md-on-bg bg-md-bg">
-      <h1 className="text-center text-3xl font-extrabold text-md-on-bg tracking-tight">Setup</h1>
-      <div className="rounded-3xl overflow-hidden shadow-lg border border-md-outline/10 bg-md-surface-container w-full max-w-2xl">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-4 sm:gap-6 text-md-on-bg bg-md-bg px-4 py-8 overflow-y-auto">
+      <h1 className="text-center text-2xl sm:text-3xl font-extrabold text-md-on-bg tracking-tight">Meeting Setup</h1>
+      <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-md-outline/10 bg-md-surface-container w-full max-w-2xl aspect-video flex items-center justify-center">
         <VideoPreview />
       </div>
-      <div className="flex h-16 items-center justify-center gap-6 mt-4">
-        <label className="flex items-center justify-center gap-3 font-bold text-md-on-surface-variant cursor-pointer">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-2">
+        <label className="flex items-center justify-center gap-3 font-semibold text-sm sm:text-base text-md-on-surface-variant cursor-pointer select-none">
           <input
             type="checkbox"
             checked={isMicCamToggled}
             onChange={(e) => setIsMicCamToggled(e.target.checked)}
-            className="w-5 h-5 accent-md-primary"
+            className="w-5 h-5 accent-md-primary rounded cursor-pointer"
           />
           Join with mic and camera off
         </label>
-        <DeviceSettings />
+        <div className="flex items-center justify-center">
+          <DeviceSettings />
+        </div>
       </div>
       <Button
-        className="rounded-full bg-md-primary text-md-on-primary hover:bg-md-primary/90 px-10 py-7 font-bold text-lg mt-6 shadow-md active:scale-95 transition-all duration-300"
+        className="rounded-full bg-md-primary text-md-on-primary hover:bg-md-primary/90 px-8 py-5 sm:px-10 sm:py-6 font-bold text-base sm:text-lg mt-4 shadow-lg active:scale-95 transition-all duration-300 w-full sm:w-auto max-w-xs"
         onClick={() => {
           call.join();
 
           setIsSetupComplete(true);
         }}
       >
-        Join meeting
+        Join Meeting
       </Button>
     </div>
   );
