@@ -65,3 +65,31 @@
     font-family: var(--font-roboto), sans-serif;
   }
 }
+
+/* Stream Video SDK Call Controls Mobile Responsiveness */
+@media (max-width: 640px) {
+  .str-video__call-controls {
+    gap: 0.35rem !important;
+    padding: 0.15rem 0 !important;
+  }
+
+  .str-video__call-controls__button {
+    padding: 0.35rem !important;
+  }
+
+  .str-video__composite-button .str-video__composite-button__button-group .str-video__composite-button__button {
+    padding: 0.35rem !important;
+  }
+
+  .str-video__call-controls .str-video__reactions-menu {
+    gap: 0.25rem !important;
+    padding: 0.25rem !important;
+  }
+
+  .str-video__call-controls .str-video__reactions-menu .str-video__reactions-menu__button {
+    height: 32px !important;
+    width: 32px !important;
+    font-size: 1rem !important;
+  }
+}
+

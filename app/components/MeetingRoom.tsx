@@ -45,57 +45,79 @@ const MeetingRoom = () => {
 
   return (
     <StreamTheme>
-      <section className="relative h-screen w-full overflow-hidden pt-4 text-md-on-bg bg-md-bg">
-        <div className="relative flex size-full items-center justify-center">
-          <div className=" flex size-full max-w-[1000px] items-center">
+      <section className="relative h-screen w-full overflow-hidden text-md-on-bg bg-md-bg">
+        <div className="relative flex size-full items-center justify-center pb-28 sm:pb-24 pt-2 sm:pt-4 px-2 sm:px-4">
+          <div className="flex size-full max-w-[1200px] items-center justify-center">
             <CallLayout />
           </div>
           <div
-            className={cn('h-[calc(100vh-100px)] hidden ml-2', {
-              'show-block': showParticipants,
-            })}
+            className={cn(
+              'fixed sm:relative inset-y-0 right-0 z-50 sm:z-auto h-full sm:h-[calc(100vh-120px)] w-full max-w-[320px] sm:max-w-[360px] bg-md-surface-container/95 sm:bg-md-surface-container-high/70 backdrop-blur-md rounded-none sm:rounded-2xl border-l sm:border border-md-outline/15 shadow-2xl p-4 sm:ml-4 transition-all duration-300',
+              showParticipants ? 'flex flex-col' : 'hidden'
+            )}
           >
             <CallParticipantsList onClose={() => setShowParticipants(false)} />
           </div>
         </div>
         
         {/* video layout and call controls */}
-        <div className="fixed bottom-4 sm:bottom-6 left-0 right-0 flex w-full items-center justify-center">
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 bg-md-surface-container-high rounded-full px-4 py-3 sm:px-6 mx-2 w-full max-w-fit shadow-lg border border-md-outline/10 z-50">
-            <CallControls onLeave={() => router.push(`/dashboard`)} />
+        <div className="fixed bottom-2.5 sm:bottom-6 left-0 right-0 flex w-full items-center justify-center px-2 z-50 pointer-events-none">
+          <div className="pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-4 bg-md-surface-container-high/95 backdrop-blur-xl rounded-2xl sm:rounded-full px-3 py-2 sm:px-6 sm:py-3 max-w-[96vw] sm:max-w-fit shadow-2xl border border-md-outline/15">
+            {/* Primary Call Controls (Audio, Video, Reaction, Screen, Record, Hangup) */}
+            <div className="flex items-center justify-center max-w-full">
+              <CallControls onLeave={() => router.push(`/dashboard`)} />
+            </div>
 
-            <DropdownMenu>
-              <div className="flex items-center">
-                <DropdownMenuTrigger className="cursor-pointer rounded-full bg-md-surface-container-highest hover:bg-md-surface-container-low p-3 transition-colors duration-300">
-                  <LayoutList size={22} className="text-md-on-surface" />
-                </DropdownMenuTrigger>
+            {/* Subtle Divider for Desktop */}
+            <div className="hidden sm:block h-7 w-[1px] bg-md-outline/20" />
+
+            {/* Secondary Controls (Layout, Stats, Participants, End Call) */}
+            <div className="flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto">
+              <DropdownMenu>
+                <div className="flex items-center">
+                  <DropdownMenuTrigger
+                    aria-label="Change layout"
+                    className="cursor-pointer rounded-full bg-md-surface-container-highest hover:bg-md-surface-container-low p-2.5 sm:p-3 transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-md-primary"
+                  >
+                    <LayoutList className="size-5 sm:size-[22px] text-md-on-surface" />
+                  </DropdownMenuTrigger>
+                </div>
+                <DropdownMenuContent className="border-md-outline/10 bg-md-surface-container-high text-md-on-surface rounded-xl shadow-xl p-2 z-50">
+                  {['Grid', 'Speaker-Left', 'Speaker-Right'].map((item, index) => (
+                    <div key={index}>
+                      <DropdownMenuItem
+                        className="cursor-pointer hover:bg-md-primary/10 rounded-lg px-4 py-2.5 font-medium focus:bg-md-primary/10 text-sm"
+                        onClick={() =>
+                          setLayout(item.toLowerCase() as CallLayoutType)
+                        }
+                      >
+                        {item}
+                      </DropdownMenuItem>
+                      {index < 2 && <DropdownMenuSeparator className="border-md-outline/10 bg-md-outline/10 my-1" />}
+                    </div>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+              <div className="flex items-center justify-center [&_button]:!p-2.5 sm:[&_button]:!p-3 [&_button]:!rounded-full">
+                <CallStatsButton />
               </div>
-              <DropdownMenuContent className="border-md-outline/10 bg-md-surface-container-high text-md-on-surface rounded-xl shadow-md p-2">
-                {['Grid', 'Speaker-Left', 'Speaker-Right'].map((item, index) => (
-                  <div key={index}>
-                    <DropdownMenuItem
-                      className="cursor-pointer hover:bg-md-primary/10 rounded-lg px-4 py-3 font-medium focus:bg-md-primary/10"
-                      onClick={() =>
-                        setLayout(item.toLowerCase() as CallLayoutType)
-                      }
-                    >
-                      {item}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="border-md-outline/10 bg-md-outline/10" />
-                  </div>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
-            <CallStatsButton />
-            
-            <button onClick={() => setShowParticipants((prev) => !prev)}>
-              <div className="cursor-pointer rounded-full bg-md-surface-container-highest hover:bg-md-surface-container-low p-3 transition-colors duration-300">
-                <Users size={22} className="text-md-on-surface" />
-              </div>
-            </button>
-            
-            {!isPersonalRoom && <EndCallButton />}
+              
+              <button
+                aria-label="Toggle participants list"
+                onClick={() => setShowParticipants((prev) => !prev)}
+                className={cn(
+                  "cursor-pointer rounded-full p-2.5 sm:p-3 transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-md-primary",
+                  showParticipants
+                    ? "bg-md-primary text-md-on-primary"
+                    : "bg-md-surface-container-highest hover:bg-md-surface-container-low text-md-on-surface"
+                )}
+              >
+                <Users className="size-5 sm:size-[22px]" />
+              </button>
+              
+              {!isPersonalRoom && <EndCallButton />}
+            </div>
           </div>
         </div>
       </section>
