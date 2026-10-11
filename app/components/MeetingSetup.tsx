@@ -36,13 +36,14 @@ const MeetingSetup = ({
 
   useEffect(() => {
     if (isMicCamToggled) {
-      call.camera.disable();
-      call.microphone.disable();
+      call.camera.disable().catch(() => {});
+      call.microphone.disable().catch(() => {});
     } else {
-      call.camera.enable();
-      call.microphone.enable();
+      call.camera.enable().catch(() => {});
+      call.microphone.enable().catch(() => {});
     }
-  }, [isMicCamToggled, call.camera, call.microphone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMicCamToggled]);
 
   if (callTimeNotArrived)
     return (

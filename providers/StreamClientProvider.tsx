@@ -36,7 +36,8 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     });
 
     setVideoClient(client);
-  }, [user, isLoaded]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, isLoaded]);
 
   if (!videoClient) return <Loader />;
 

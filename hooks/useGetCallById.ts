@@ -6,14 +6,15 @@ export const useGetCallById = (id: string | string[]) => {
   const [isCallLoading, setIsCallLoading] = useState(true);
 
   const client = useStreamVideoClient();
+  const callId = Array.isArray(id) ? id[0] : id;
 
   useEffect(() => {
-    if (!client) return;
+    if (!client || !callId) return;
     
     const loadCall = async () => {
       try {
         // https://getstream.io/video/docs/react/guides/querying-calls/#filters
-        const { calls } = await client.queryCalls({ filter_conditions: { id } });
+        const { calls } = await client.queryCalls({ filter_conditions: { id: callId } });
 
         if (calls.length > 0) setCall(calls[0]);
 
@@ -25,7 +26,7 @@ export const useGetCallById = (id: string | string[]) => {
     };
 
     loadCall();
-  }, [client, id]);
+  }, [client, callId]);
 
   return { call, isCallLoading };
 };
