@@ -54,6 +54,7 @@ export const MeetingControls = ({
   const {
     useMicrophoneState,
     useCameraState,
+    useScreenShareState,
     useHasOngoingScreenShare,
     useParticipants,
     useLocalParticipant,
@@ -61,7 +62,9 @@ export const MeetingControls = ({
 
   const { microphone, optimisticIsMute: isMicMuted } = useMicrophoneState();
   const { camera, optimisticIsMute: isCameraMuted } = useCameraState();
-  const hasScreenShare = useHasOngoingScreenShare();
+  const { screenShare, optimisticIsMute: isScreenShareMuted } = useScreenShareState();
+  const isLocalScreenSharing = !isScreenShareMuted;
+  const isSomeoneScreenSharing = useHasOngoingScreenShare();
   const { isCallRecordingInProgress, toggleCallRecording } = useToggleCallRecording();
   const participants = useParticipants();
   const localParticipant = useLocalParticipant();
@@ -92,7 +95,7 @@ export const MeetingControls = ({
 
   const handleToggleScreenShare = async () => {
     try {
-      await call?.screenShare.toggle();
+      await screenShare.toggle();
     } catch (err) {
       console.error('Failed to toggle screen share:', err);
     }
@@ -162,17 +165,26 @@ export const MeetingControls = ({
 
         {/* 3. Screen Share Button */}
         <button
-          aria-label={hasScreenShare ? 'Stop sharing screen' : 'Share screen'}
-          title={hasScreenShare ? 'Stop Sharing' : 'Share Screen'}
+          aria-label={isLocalScreenSharing ? 'Stop sharing screen' : 'Share screen'}
+          title={
+            isLocalScreenSharing
+              ? 'Stop Sharing'
+              : isSomeoneScreenSharing
+              ? 'Someone else is sharing screen'
+              : 'Share Screen'
+          }
+          disabled={isSomeoneScreenSharing && !isLocalScreenSharing}
           onClick={handleToggleScreenShare}
           className={cn(
             'size-10 sm:size-12 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-md-primary',
-            hasScreenShare
+            isLocalScreenSharing
               ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/35'
+              : isSomeoneScreenSharing
+              ? 'bg-white/5 text-white/30 border border-white/5 cursor-not-allowed opacity-50'
               : 'bg-white/10 text-white border border-white/10 hover:bg-white/20'
           )}
         >
-          {hasScreenShare ? (
+          {isLocalScreenSharing ? (
             <MonitorOff className="size-4.5 sm:size-5" />
           ) : (
             <MonitorUp className="size-4.5 sm:size-5" />
