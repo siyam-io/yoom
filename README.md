@@ -35,3 +35,57 @@ Yoom is a modern, sleek video calling app inspired by Zoom. Built with cutting-e
 - 🎨 Themed UI with dark/light support
 
 ---
+
+## 🛠️ Local Setup & Installation
+
+To run this project locally, follow these steps:
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/siyam-io/zoom_clone.git
+cd zoom_clone
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### 3. Set Up Environment Variables
+Create a `.env.local` file in the root of the project and add your API keys:
+
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+NEXT_PUBLIC_STREAM_API_KEY=
+STREAM_SECRET_KEY=
+
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+### 4. Run the Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+---
+
+## ☁️ Deployment
+
+This project is optimized for deployment on [Vercel](https://vercel.com). Simply import the repository, configure the environment variables, and deploy!
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+## 📝 License
+
+This project is open-source and available under the MIT License.
