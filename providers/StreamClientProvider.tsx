@@ -18,12 +18,19 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     if (!isLoaded || !user) return;
     if (!API_KEY) throw new Error('Stream API key is missing');
 
+    const displayName =
+      user.fullName ||
+      (user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : '') ||
+      user.username ||
+      user.primaryEmailAddress?.emailAddress?.split('@')[0] ||
+      'Participant';
+
     const client = new StreamVideoClient({
       apiKey: API_KEY,
       user: {
-        id: user?.id,
-        name: user?.username || user?.id,
-        image: user?.imageUrl,
+        id: user.id,
+        name: displayName,
+        image: user.imageUrl,
       },
       tokenProvider,
     });

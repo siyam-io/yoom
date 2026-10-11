@@ -15,6 +15,26 @@ export const tokenProvider = async () => {
 
   const streamClient = new StreamClient(STREAM_API_KEY, STREAM_API_SECRET);
 
+  const displayName =
+    user.fullName ||
+    (user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : '') ||
+    user.username ||
+    user.primaryEmailAddress?.emailAddress?.split('@')[0] ||
+    'Participant';
+
+  try {
+    await streamClient.upsertUsers([
+      {
+        id: user.id,
+        name: displayName,
+        image: user.imageUrl,
+        role: 'user',
+      },
+    ]);
+  } catch (err) {
+    console.warn('Non-fatal: could not upsert user name to stream', err);
+  }
+
   const expirationTime = Math.floor(Date.now() / 1000) + 3600;
   const issuedAt = Math.floor(Date.now() / 1000) - 60;
 

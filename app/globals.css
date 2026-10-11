@@ -93,7 +93,48 @@
   }
 }
 
-/* Stream Video SDK Video Layout Mobile Responsiveness */
+/* Custom Control Bar Embedded Stream Button Overrides */
+.custom-stream-reaction-btn .str-video__round-button,
+.custom-stream-stats-btn .str-video__round-button,
+.custom-stream-stats-btn button {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-radius: 9999px !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+}
+
+@media (min-width: 640px) {
+  .custom-stream-reaction-btn .str-video__round-button,
+  .custom-stream-stats-btn .str-video__round-button,
+  .custom-stream-stats-btn button {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+}
+
+.custom-stream-reaction-btn .str-video__round-button:hover,
+.custom-stream-stats-btn .str-video__round-button:hover,
+.custom-stream-stats-btn button:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.custom-stream-reaction-btn .str-video__round-button svg,
+.custom-stream-stats-btn .str-video__round-button svg,
+.custom-stream-stats-btn button svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+  fill: currentColor !important;
+}
+
+/* Stream Video SDK Video Layout & Participant Card Polish */
 .str-video__speaker-layout__wrapper,
 .str-video__paginated-grid-layout__wrapper {
   height: 100% !important;
@@ -103,12 +144,45 @@
   justify-content: center !important;
 }
 
-.str-video__speaker-layout {
+.str-video__speaker-layout,
+.str-video__paginated-grid-layout {
   height: 100% !important;
   width: 100% !important;
 }
 
+/* Modern Card Styling for Video Tiles */
+.str-video__participant-view {
+  border-radius: 1.25rem !important;
+  overflow: hidden !important;
+  background-color: #17151e !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35) !important;
+  transition: border-color 0.2s ease !important;
+}
+
+.str-video__participant-view--speaking {
+  border-color: #86efac !important;
+  box-shadow: 0 0 0 2px rgba(134, 239, 172, 0.35), 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Participant Details (Name Pill) inside Video Tile */
+.str-video__participant-view .str-video__participant-details {
+  background: rgba(18, 16, 23, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 9999px !important;
+  padding: 4px 12px !important;
+  margin: 10px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  z-index: 10 !important;
+}
+
 .str-video__participant-details__name {
+  color: #ffffff !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
   max-width: 160px !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -122,27 +196,13 @@
     gap: 0.5rem !important;
     padding: 0 !important;
     height: 100% !important;
-    justify-content: flex-start !important;
+    justify-content: center !important;
   }
 
   .str-video__speaker-layout .str-video__speaker-layout__spotlight {
     width: 100% !important;
     flex: 1 1 auto !important;
-    min-height: 200px !important;
-    max-height: 60vh !important;
-  }
-
-  .str-video__speaker-layout .str-video__speaker-layout__spotlight .str-video__participant-view {
-    width: 100% !important;
-    height: 100% !important;
-    max-height: 100% !important;
-  }
-
-  .str-video__speaker-layout__participants-bar-buttons-wrapper {
-    max-width: 100% !important;
-    width: 100% !important;
-    overflow-x: auto !important;
-    padding: 0.25rem 0 !important;
+    min-height: 220px !important;
   }
 
   .str-video__speaker-layout .str-video__speaker-layout__participants-bar {
@@ -152,6 +212,7 @@
     overflow-x: auto !important;
     width: 100% !important;
     padding: 2px !important;
+    flex-shrink: 0 !important;
   }
 
   .str-video__speaker-layout .str-video__speaker-layout__participants-bar .str-video__participant-view {
@@ -159,19 +220,26 @@
     width: 120px !important;
     aspect-ratio: 16/9 !important;
     flex-shrink: 0 !important;
+    border-radius: 0.75rem !important;
   }
 
   .str-video__participant-details__name {
-    max-width: 85px !important;
+    max-width: 110px !important;
     font-size: 11px !important;
-    padding: 2px 4px !important;
+    padding: 1px 3px !important;
   }
 
   .str-video__paginated-grid-layout .str-video__paginated-grid-layout__group {
     padding-inline: 0.25rem !important;
-    gap: 6px !important;
+    gap: 8px !important;
     max-width: 100% !important;
+    height: 100% !important;
+  }
+
+  .str-video__paginated-grid-layout .str-video__participant-view {
+    border-radius: 1rem !important;
   }
 }
+
 
 
