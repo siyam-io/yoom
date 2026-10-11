@@ -7,6 +7,7 @@ import {
   PaginatedGridLayout,
   SpeakerLayout,
   useCallStateHooks,
+  useToggleCallRecording,
 } from '@stream-io/video-react-sdk';
 import { useSearchParams } from 'next/navigation';
 import Loader from './loader';
@@ -22,6 +23,7 @@ const MeetingRoom = () => {
   );
 
   const { useCallCallingState, useHasOngoingScreenShare } = useCallStateHooks();
+  const { isCallRecordingInProgress } = useToggleCallRecording();
 
   const callingState = useCallCallingState();
   const hasScreenShare = useHasOngoingScreenShare();
@@ -45,6 +47,14 @@ const MeetingRoom = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden text-md-on-bg bg-[#100e16] select-none">
+      {/* Live Recording Indicator */}
+      {isCallRecordingInProgress && (
+        <div className="absolute top-4 left-4 z-40 flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-bold backdrop-blur-md shadow-lg shadow-rose-950/50">
+          <span className="size-2 rounded-full bg-rose-500 animate-ping" />
+          <span>REC</span>
+        </div>
+      )}
+
       {/* Main Video Presentation Grid */}
       <div className="relative flex size-full items-center justify-center pb-20 sm:pb-24 pt-2 sm:pt-4 px-1.5 sm:px-4">
         <div className="flex size-full max-w-[1400px] items-center justify-center min-h-0 overflow-hidden">

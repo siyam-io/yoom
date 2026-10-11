@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { AlertCircle, Film } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   const router = useRouter();
@@ -198,50 +199,59 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
           }
         }}
       >
-        <DialogContent className="max-w-2xl bg-[#13111c]/98 backdrop-blur-2xl border border-white/15 text-white rounded-3xl p-6 shadow-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-bold flex items-center gap-2 text-white truncate">
-              <Film className="size-5 text-violet-400 shrink-0" />
-              <span className="truncate">{selectedVideo?.title}</span>
-            </DialogTitle>
-          </DialogHeader>
-
+        <DialogContent
+          className={cn(
+            "bg-[#13111c]/98 backdrop-blur-2xl border border-white/15 text-white rounded-3xl shadow-2xl transition-all duration-200 outline-none",
+            videoError ? "max-w-md p-6 sm:p-8" : "max-w-2xl p-6"
+          )}
+        >
           {videoError ? (
-            <div className="flex flex-col items-center justify-center p-6 sm:p-8 text-center gap-4 bg-white/5 rounded-2xl border border-white/10 my-2">
-              <div className="size-14 rounded-full bg-rose-500/15 flex items-center justify-center border border-rose-500/30">
-                <AlertCircle className="size-7 text-rose-400" />
+            <div className="flex flex-col items-center text-center gap-4 py-1">
+              <div className="size-16 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 shadow-lg shadow-rose-500/10">
+                <AlertCircle className="size-8" />
               </div>
-              <div className="flex flex-col gap-1.5 max-w-md">
-                <h3 className="text-lg font-bold text-white">Recording Retention Expired</h3>
+
+              <div className="flex flex-col gap-2">
+                <DialogTitle className="text-xl font-bold text-white tracking-tight">
+                  Recording Retention Expired
+                </DialogTitle>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Stream Video-এর ফ্রি ট্রায়াল ক্লাউড স্টোরেজে ভিডিও সর্বোচ্চ <strong>১৪ দিন</strong> সংরক্ষিত থাকে। ১৪ দিন পার হয়ে যাওয়ায় ক্লাউড সার্ভার থেকে ফাইলটির মেয়াদ শেষ হয়ে গেছে।
+                  Stream Video-এর ফ্রি ট্রায়াল ক্লাউড স্টোরেজে ভিডিও সর্বোচ্চ <strong className="text-white font-semibold">১৪ দিন</strong> সংরক্ষিত থাকে। সময় পার হয়ে যাওয়ায় ক্লাউড সার্ভার থেকে ফাইলটির মেয়াদ শেষ হয়ে গেছে।
                 </p>
-                <div className="bg-violet-600/10 border border-violet-500/20 rounded-xl p-3 text-xs text-violet-200 mt-1">
-                  💡 নতুন যে কোনো মিটিং চলাকালীন রেকর্ড বাটনে চাপ দিলে নতুন ফ্রেশ রেকর্ডিং তৈরি হবে এবং সাথে সাথেই এখান থেকে প্লে করা যাবে।
-                </div>
               </div>
-              <div className="flex items-center gap-3 mt-1">
-                <Button
-                  size="sm"
-                  onClick={() => setSelectedVideo(null)}
-                  className="rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-xs px-6 py-2 cursor-pointer shadow-md shadow-violet-600/30"
-                >
-                  Close
-                </Button>
+
+              <div className="bg-violet-600/10 border border-violet-500/20 rounded-2xl p-3.5 text-xs text-violet-200 text-left leading-relaxed w-full">
+                💡 <span className="font-semibold text-white">টিপস:</span> যেকোনো মিটিং চলাকালীন নিচের বার থেকে <strong className="text-violet-300">Record (Disc)</strong> বাটনে চাপ দিলে নতুন ফ্রেশ রেকর্ডিং তৈরি হবে এবং মিটিং শেষ হলে এখান থেকে প্লে করা যাবে।
               </div>
+
+              <Button
+                onClick={() => setSelectedVideo(null)}
+                className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm py-2.5 mt-2 cursor-pointer shadow-lg shadow-violet-600/30 transition-all active:scale-[0.98]"
+              >
+                Close
+              </Button>
             </div>
           ) : (
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-black flex items-center justify-center my-2 shadow-inner border border-white/10">
-              <video
-                key={selectedVideo?.url}
-                src={selectedVideo?.url}
-                controls
-                autoPlay
-                playsInline
-                className="size-full object-contain"
-                onError={() => setVideoError(true)}
-              />
-            </div>
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-lg font-bold flex items-center gap-2 text-white truncate">
+                  <Film className="size-5 text-violet-400 shrink-0" />
+                  <span className="truncate">{selectedVideo?.title}</span>
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="relative aspect-video rounded-2xl overflow-hidden bg-black flex items-center justify-center my-2 shadow-inner border border-white/10">
+                <video
+                  key={selectedVideo?.url}
+                  src={selectedVideo?.url}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="size-full object-contain"
+                  onError={() => setVideoError(true)}
+                />
+              </div>
+            </>
           )}
         </DialogContent>
       </Dialog>

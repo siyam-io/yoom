@@ -30,6 +30,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { toast } from 'sonner';
 
 export type CallLayoutType = 'grid' | 'speaker-bottom' | 'speaker-left' | 'speaker-right';
 
@@ -98,6 +99,21 @@ export const MeetingControls = ({
       await screenShare.toggle();
     } catch (err) {
       console.error('Failed to toggle screen share:', err);
+    }
+  };
+
+  const handleToggleRecording = async () => {
+    try {
+      if (isCallRecordingInProgress) {
+        await toggleCallRecording();
+        toast.info('Recording stopped. Processing video for dashboard...');
+      } else {
+        await toggleCallRecording();
+        toast.success('Recording started! Meeting is now being recorded.');
+      }
+    } catch (err: any) {
+      console.error('Failed to toggle recording:', err);
+      toast.error(err?.message || 'Failed to toggle recording');
     }
   };
 
@@ -200,7 +216,7 @@ export const MeetingControls = ({
         <button
           aria-label={isCallRecordingInProgress ? 'Stop recording' : 'Record call'}
           title={isCallRecordingInProgress ? 'Recording in progress (Click to stop)' : 'Record Meeting'}
-          onClick={() => toggleCallRecording()}
+          onClick={handleToggleRecording}
           className={cn(
             'size-10 sm:size-12 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-md-primary',
             isCallRecordingInProgress
