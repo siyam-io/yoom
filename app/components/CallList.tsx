@@ -4,6 +4,7 @@ import { Call, CallRecording } from '@stream-io/video-react-sdk';
 import { useGetCalls } from '@/hooks/useGetCalls';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 import Loader from './loader';
 import MeetingCard from './MeetingCard';
 import {
@@ -12,11 +13,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { AlertCircle, Film, ExternalLink } from 'lucide-react';
+import { AlertCircle, Film } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   const router = useRouter();
+  const { user } = useUser();
   const { endedCalls, upcomingCalls, callRecordings, isLoading } =
     useGetCalls();
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
@@ -76,12 +78,20 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   const calls = getCalls();
   const noCallsMessage = getNoCallsMessage();
 
-  const handlePlayRecording = (recording: CallRecording) => {
-    setVideoError(false);
-    setSelectedVideo({
-      url: recording.url,
-      title: recording.filename || 'Meeting Recording',
-    });
+  const handlePlayRecording = (recording: CallRecording, isExpired: boolean) => {
+    if (isExpired) {
+      setVideoError(true);
+      setSelectedVideo({
+        url: recording.url,
+        title: recording.filename || 'Meeting Recording',
+      });
+    } else {
+      setVideoError(false);
+      setSelectedVideo({
+        url: recording.url,
+        title: recording.filename || 'Meeting Recording',
+      });
+    }
   };
 
   return (
@@ -93,9 +103,16 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
             const callItem = meeting as Call;
             const recItem = meeting as CallRecording;
 
+            const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
+            const isExpired = Boolean(
+              isRecording &&
+              recItem.start_time &&
+              Date.now() - new Date(recItem.start_time).getTime() > FOURTEEN_DAYS_MS
+            );
+
             const title = isRecording
-              ? recItem.filename?.substring(0, 30) || 'Recording'
-              : callItem.state?.custom?.description || 'No Description';
+              ? recItem.filename?.substring(0, 32) || 'Meeting Recording'
+              : callItem.state?.custom?.description || 'Instant Meeting';
 
             const date = isRecording
               ? recItem.start_time
@@ -108,6 +125,20 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
             const link = isRecording
               ? recItem.url
               : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callItem.id}`;
+
+            const hostName =
+              callItem.state?.createdBy?.name ||
+              user?.fullName ||
+              user?.username ||
+              'Host';
+            const hostImage = callItem.state?.createdBy?.image || user?.imageUrl;
+
+            const members =
+              callItem.state?.members?.map((m) => ({
+                id: m.user.id,
+                name: m.user.name,
+                image: m.user.image,
+              })) || [];
 
             return (
               <MeetingCard
@@ -124,10 +155,15 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
                 isPreviousMeeting={type === 'ended'}
                 link={link}
                 buttonIcon1={isRecording ? '/icons/play.svg' : undefined}
-                buttonText={isRecording ? 'Play' : 'Start'}
+                buttonText={isRecording ? (isExpired ? 'View Info' : 'Play') : 'Start'}
+                isRecording={isRecording}
+                isExpired={isExpired}
+                members={members}
+                hostName={hostName}
+                hostImage={hostImage}
                 handleClick={
                   isRecording
-                    ? () => handlePlayRecording(recItem)
+                    ? () => handlePlayRecording(recItem, isExpired)
                     : () => router.push(`/meeting/${callItem.id}`)
                 }
               />
@@ -162,42 +198,33 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
           }
         }}
       >
-        <DialogContent className="max-w-3xl bg-[#17151f] border border-white/10 text-white rounded-3xl p-5 sm:p-6 shadow-2xl">
+        <DialogContent className="max-w-2xl bg-[#13111c]/98 backdrop-blur-2xl border border-white/15 text-white rounded-3xl p-6 shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-lg sm:text-xl font-bold flex items-center gap-2 text-white truncate">
-              <Film className="size-5 text-md-primary shrink-0" />
+            <DialogTitle className="text-lg font-bold flex items-center gap-2 text-white truncate">
+              <Film className="size-5 text-violet-400 shrink-0" />
               <span className="truncate">{selectedVideo?.title}</span>
             </DialogTitle>
           </DialogHeader>
 
           {videoError ? (
-            <div className="flex flex-col items-center justify-center p-6 sm:p-10 text-center gap-4 bg-white/5 rounded-2xl border border-white/10 my-2">
-              <div className="size-14 rounded-full bg-rose-500/10 flex items-center justify-center border border-rose-500/20">
-                <AlertCircle className="size-8 text-rose-400" />
+            <div className="flex flex-col items-center justify-center p-6 sm:p-8 text-center gap-4 bg-white/5 rounded-2xl border border-white/10 my-2">
+              <div className="size-14 rounded-full bg-rose-500/15 flex items-center justify-center border border-rose-500/30">
+                <AlertCircle className="size-7 text-rose-400" />
               </div>
               <div className="flex flex-col gap-1.5 max-w-md">
-                <h3 className="text-lg font-bold text-white">Recording Expired on Server</h3>
-                <p className="text-sm text-md-on-surface-variant leading-relaxed">
-                  Stream Video-এর ফ্রি ক্লাউড স্টোরেজে রেকর্ডিং সর্বোচ্চ <strong>১৪ দিন</strong> থাকে। ১৪ দিন পার হয়ে গেলে ফাইলটি স্বয়ংক্রিয়ভাবে মুছে যায়, যার কারণে সরাসরি ক্লাউড লিঙ্কটি অ্যাক্সেস করা যায় না।
+                <h3 className="text-lg font-bold text-white">Recording Retention Expired</h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Stream Video-এর ফ্রি ট্রায়াল ক্লাউড স্টোরেজে ভিডিও সর্বোচ্চ <strong>১৪ দিন</strong> সংরক্ষিত থাকে। ১৪ দিন পার হয়ে যাওয়ায় ক্লাউড সার্ভার থেকে ফাইলটির মেয়াদ শেষ হয়ে গেছে।
                 </p>
-                <p className="text-xs text-white/50 mt-1">
-                  ভবিষ্যতের মিটিংয়ের রেকর্ডিং স্থায়ীভাবে সংরক্ষণ করতে Stream Dashboard থেকে আপনার নিজস্ব AWS S3 বাকেট কানেক্ট করতে পারেন।
-                </p>
+                <div className="bg-violet-600/10 border border-violet-500/20 rounded-xl p-3 text-xs text-violet-200 mt-1">
+                  💡 নতুন যে কোনো মিটিং চলাকালীন রেকর্ড বাটনে চাপ দিলে নতুন ফ্রেশ রেকর্ডিং তৈরি হবে এবং সাথে সাথেই এখান থেকে প্লে করা যাবে।
+                </div>
               </div>
-              <div className="flex items-center gap-3 mt-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => selectedVideo && window.open(selectedVideo.url, '_blank')}
-                  className="rounded-full border-white/20 text-white hover:bg-white/10 text-xs flex items-center gap-1.5"
-                >
-                  <ExternalLink className="size-3.5" />
-                  <span>Open Raw Link</span>
-                </Button>
+              <div className="flex items-center gap-3 mt-1">
                 <Button
                   size="sm"
                   onClick={() => setSelectedVideo(null)}
-                  className="rounded-full bg-white/10 hover:bg-white/20 text-white text-xs"
+                  className="rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-xs px-6 py-2 cursor-pointer shadow-md shadow-violet-600/30"
                 >
                   Close
                 </Button>
