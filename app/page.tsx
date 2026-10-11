@@ -4,51 +4,22 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import HomeNavbar from "@/app/components/HomeNavbar";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-md-bg relative overflow-clip flex flex-col text-md-on-bg">
-      {/* Background Glows (Material You Organic Shapes) */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-md-secondary-container/60 rounded-full blur-[100px] pointer-events-none mix-blend-multiply" />
-      <div className="absolute top-[20%] right-[-15%] w-[60%] h-[60%] bg-md-surface-container-low/70 rounded-[120px] blur-[120px] pointer-events-none mix-blend-multiply" />
-      <div className="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] bg-md-tertiary/10 rounded-[100px] blur-[80px] pointer-events-none mix-blend-multiply" />
+    <div className="min-h-screen bg-[#09080e] relative overflow-clip flex flex-col text-white selection:bg-violet-600/30 selection:text-violet-200">
+      {/* Background Glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-violet-600/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-15%] w-[60%] h-[60%] bg-indigo-600/10 rounded-[120px] blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] bg-purple-600/10 rounded-[100px] blur-[120px] pointer-events-none" />
 
-      {/* Header */}
-      <header className="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center z-10 relative">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="bg-md-surface-container p-2 rounded-xl border border-md-outline/20 group-hover:bg-md-primary/10 transition-colors duration-300">
-            <Image
-              src="/icons/logo.svg"
-              width={28}
-              height={28}
-              alt="yoom logo"
-              className="brightness-0"
-            />
-          </div>
-          <p className="text-[26px] font-extrabold tracking-tight text-md-primary">YOOM</p>
-        </Link>
-        <nav className="hidden md:flex items-center gap-8 text-md-on-surface-variant font-medium">
-          <Link href="/features" className="hover:text-md-primary transition-colors">Features</Link>
-          <Link href="/pricing" className="hover:text-md-primary transition-colors">Pricing</Link>
-          <Link href="/faq" className="hover:text-md-primary transition-colors">FAQ</Link>
-          <Link href="/about" className="hover:text-md-primary transition-colors">About</Link>
-          <Link href="/contact" className="hover:text-md-primary transition-colors">Contact</Link>
-        </nav>
-        <div className="flex items-center gap-4">
-          <Link href="/sign-in">
-            <Button variant="ghost" className="hidden md:inline-flex text-md-primary hover:bg-md-primary/10 rounded-full font-medium">Log In</Button>
-          </Link>
-          <Link href="/sign-up">
-            <Button className="bg-md-primary text-md-on-primary hover:bg-md-primary/90 active:bg-md-primary/80 rounded-full px-8 py-5 h-auto text-base font-medium shadow-sm hover:shadow-md active:scale-95 transition-all duration-300">
-              Get Started
-            </Button>
-          </Link>
-        </div>
-      </header>
+      {/* Dynamic Navigation Bar */}
+      <HomeNavbar />
 
       {/* Hero Section */}
       <main className="flex-1 w-full flex flex-col items-center relative z-10">
-        <section className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center pt-24 pb-32">
+        <section className="w-full max-w-7xl mx-auto px-6 flex flex-col items-center text-center pt-36 sm:pt-44 pb-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

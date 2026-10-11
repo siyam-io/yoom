@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { Toaster } from "@/components/ui/sonner"
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 
@@ -28,25 +29,30 @@ export default function RootLayout({
     <html lang="en">
       <ClerkProvider
         appearance={{
+          baseTheme: dark,
           layout: {
             socialButtonsVariant: "iconButton",
             logoImageUrl: "/icons/logo.svg",
           },
           variables: {
-            colorText: "#1C1B1F",
-            colorPrimary: "#6750A4",
-            colorBackground: "#FFFBFE",
-            colorInputBackground: "#E7E0EC",
-            colorInputText: "#1C1B1F",
-            colorDanger: "#B3261E",
+            colorText: "#FFFFFF",
+            colorPrimary: "#8B5CF6",
+            colorBackground: "#13111C",
+            colorInputBackground: "#1B1827",
+            colorInputText: "#FFFFFF",
+            colorDanger: "#F43F5E",
           },
           elements: {
-            card: "shadow-lg border-0 rounded-[24px] bg-md-surface-container",
-            formButtonPrimary: "rounded-full transition-all duration-300 active:scale-95 shadow-sm hover:shadow-md",
-            socialButtonsBlockButton: "border-md-outline text-md-on-bg rounded-full",
-            formFieldInput: "rounded-t-lg rounded-b-none border-0 border-b-2 border-md-outline bg-md-surface-container-low h-14 focus:ring-0 focus:border-b-md-primary",
-            formFieldLabel: "text-md-on-surface-variant font-medium",
-            footerActionLink: "text-md-primary hover:text-md-primary/80 font-medium",
+            card: "shadow-2xl border border-white/10 rounded-3xl bg-[#13111C]/95 backdrop-blur-2xl",
+            formButtonPrimary: "rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 font-bold shadow-lg shadow-violet-600/30 transition-all duration-200 active:scale-95",
+            socialButtonsBlockButton: "border border-white/10 text-white rounded-xl bg-white/5 hover:bg-white/10 transition-all",
+            formFieldInput: "rounded-xl border border-white/10 bg-white/5 text-white h-11 focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500",
+            formFieldLabel: "text-slate-300 font-medium text-xs",
+            footerActionLink: "text-violet-400 hover:text-violet-300 font-medium",
+            headerTitle: "text-white font-bold text-2xl tracking-tight",
+            headerSubtitle: "text-slate-400 text-sm",
+            dividerLine: "bg-white/10",
+            dividerText: "text-slate-500 text-xs uppercase",
           }
         }}
       >
