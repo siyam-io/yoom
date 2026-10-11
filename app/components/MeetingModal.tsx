@@ -32,25 +32,28 @@ const MeetingModal = ({
 }: MeetingModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex w-full max-w-[520px] flex-col gap-6 border border-md-outline/10 bg-md-surface-container-high px-8 py-10 text-md-on-surface rounded-[32px] shadow-lg">
-        <div className="flex flex-col gap-6">
+      <DialogContent className="flex w-full max-w-[480px] flex-col gap-6 border border-white/10 bg-[#12101c]/98 backdrop-blur-2xl p-6 sm:p-8 text-white rounded-3xl shadow-2xl">
+        <div className="flex flex-col gap-5">
           {image && (
-            <div className="flex justify-center bg-md-secondary-container/30 w-fit mx-auto p-4 rounded-full">
-              <Image src={image} alt="image" width={64} height={64} className="brightness-0" />
+            <div className="flex justify-center bg-violet-600/15 border border-violet-500/30 size-20 mx-auto rounded-3xl items-center shadow-lg">
+              <Image src={image} alt="image" width={48} height={48} className="size-12 object-contain" />
             </div>
           )}
-          <h1 className={cn("text-3xl font-extrabold leading-[42px] tracking-tight text-center text-md-on-bg", className)}>
+          <h2 className={cn("text-2xl sm:text-3xl font-black leading-tight tracking-tight text-center text-white", className)}>
             {title}
-          </h1>
+          </h2>
           {children}
-          <Button onClick={handleClick} className="bg-md-primary text-md-on-primary hover:bg-md-primary/90 transition-all duration-300 rounded-full py-7 text-lg font-bold shadow-md active:scale-95 cursor-pointer mt-4">
+          <Button 
+            onClick={handleClick} 
+            className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-2xl py-6 text-base font-bold shadow-lg shadow-violet-600/30 transition-all duration-200 active:scale-95 cursor-pointer mt-2"
+          >
             {buttonIcon && (
               <Image
                 src={buttonIcon}
                 alt="button icon"
                 width={18}
                 height={18}
-                className="mr-2 brightness-0 invert"
+                className="mr-2 size-4.5 invert"
               />
             )}
             {buttonText || "Schedule Meeting"}

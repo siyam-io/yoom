@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { avatarImages } from "@/constant";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Calendar, Copy } from "lucide-react";
 
 interface MeetingCardProps {
   title: string;
@@ -29,61 +30,67 @@ const MeetingCard = ({
   buttonText,
 }: MeetingCardProps) => {
   return (
-    <section className="flex min-h-[258px] w-full flex-col justify-between rounded-[32px] bg-md-surface-container-low px-6 py-8 shadow-sm border border-md-outline/10 text-md-on-surface hover:shadow-md transition-shadow duration-300 xl:max-w-[568px]">
-      <article className="flex flex-col gap-6">
-        <div className="bg-md-primary/10 w-fit p-3 rounded-2xl">
-          <Image src={icon} alt="upcoming" width={28} height={28} className="brightness-0 opacity-80" />
-        </div>
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-bold text-md-on-surface tracking-tight">{title}</h1>
-            <p className="text-base font-medium text-md-on-surface-variant">{date}</p>
+    <section className="flex min-h-[250px] w-full flex-col justify-between rounded-3xl bg-[#13111c]/90 backdrop-blur-xl p-6 sm:p-7 shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-white/10 hover:border-white/20 transition-all duration-300 text-white relative overflow-hidden group">
+      {/* Top subtle rim highlight */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+
+      <article className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <div className="size-12 rounded-2xl bg-violet-600/15 border border-violet-500/30 flex items-center justify-center p-2.5 shadow-md">
+            <Image src={icon} alt="meeting icon" width={24} height={24} className="size-6 object-contain" />
+          </div>
+
+          <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+            <Calendar className="size-3.5 text-violet-400 shrink-0" />
+            <span className="truncate max-w-[220px]">{date}</span>
           </div>
         </div>
+
+        <div className="flex flex-col gap-1 mt-2">
+          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight line-clamp-2">
+            {title}
+          </h2>
+        </div>
       </article>
-      <article className={cn("flex justify-center relative mt-8", {})}>
+
+      <article className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 pt-4 border-t border-white/5">
         <div className="relative flex w-full max-sm:hidden">
           {avatarImages.map((img, index) => (
             <Image
               key={index}
               src={img}
               alt="attendees"
-              width={40}
-              height={40}
-              className={cn("rounded-full border-[3px] border-md-surface-container-low", { absolute: index > 0 })}
-              style={{ top: 0, left: index * 28 }}
+              width={34}
+              height={34}
+              className={cn("rounded-full border-2 border-[#13111c] size-[34px] object-cover", { absolute: index > 0 })}
+              style={{ top: 0, left: index * 22 }}
             />
           ))}
-          <div className="flex-center absolute left-[136px] size-10 rounded-full border-[3px] border-md-surface-container-low bg-md-surface-container-high text-md-on-surface text-sm font-bold shadow-sm">
+          <div className="flex items-center justify-center absolute left-[110px] size-[34px] rounded-full border-2 border-[#13111c] bg-[#221d30] text-slate-200 text-xs font-bold shadow-sm">
             +5
           </div>
         </div>
+
         {!isPreviousMeeting && (
-          <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full">
+          <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
             <Button
               onClick={handleClick}
-              className="rounded-full bg-md-primary text-md-on-primary hover:bg-md-primary/90 px-5 py-2.5 sm:px-8 sm:py-6 font-bold text-sm sm:text-base active:scale-95 transition-all duration-300 shadow-sm flex-1 sm:max-w-[200px] h-auto cursor-pointer"
+              className="flex-1 sm:flex-none rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white px-6 py-2.5 font-bold text-sm shadow-md shadow-violet-600/30 active:scale-95 transition-all duration-200 cursor-pointer h-auto flex items-center justify-center gap-2"
             >
               {buttonIcon1 && (
-                <Image src={buttonIcon1} alt="feature" width={18} height={18} className="brightness-0 invert mr-1.5" />
+                <Image src={buttonIcon1} alt="feature" width={16} height={16} className="size-4 invert" />
               )}
-              {buttonText}
+              <span>{buttonText}</span>
             </Button>
             <Button
               onClick={() => {
                 navigator.clipboard.writeText(link);
-                toast("Link Copied");
+                toast("Meeting Link Copied to Clipboard");
               }}
-              className="rounded-full bg-md-surface-container-high text-md-on-surface hover:bg-md-on-surface-variant/10 border border-md-outline/20 px-5 py-2.5 sm:px-8 sm:py-6 font-bold text-sm sm:text-base active:scale-95 transition-all duration-300 flex-1 sm:max-w-[200px] h-auto cursor-pointer flex items-center justify-center gap-1.5"
+              className="rounded-xl bg-white/5 text-slate-200 hover:text-white hover:bg-white/10 border border-white/10 px-4 py-2.5 font-semibold text-sm active:scale-95 transition-all duration-200 cursor-pointer h-auto flex items-center justify-center gap-1.5"
             >
-              <Image
-                src="/icons/copy.svg"
-                alt="copy"
-                width={18}
-                height={18}
-                className="brightness-0 opacity-80"
-              />
-              <span>Copy Link</span>
+              <Copy className="size-4" />
+              <span className="hidden sm:inline">Copy Link</span>
             </Button>
           </div>
         )}

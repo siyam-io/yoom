@@ -90,14 +90,15 @@ const MeetingTypeList = () => {
       variants={container}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4"
+      className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4"
     >
       <motion.div variants={item}>
         <HomeCard
           img="/icons/add-meeting.svg"
           title="New Meeting"
-          description="Start an instant meeting"
-          className="bg-md-primary/10 border-md-primary/20"
+          description="Start an instant meeting now"
+          className="bg-gradient-to-br from-violet-600/25 via-[#18122c]/90 to-[#0e0c18] border-violet-500/30 hover:border-violet-400/60 hover:shadow-[0_12px_40px_rgba(139,92,246,0.25)]"
+          iconBgColor="bg-gradient-to-br from-violet-500 to-indigo-600 shadow-violet-500/30"
           handleClick={() => setMeetingState("isInstantMeeting")}
         />
       </motion.div>
@@ -105,8 +106,9 @@ const MeetingTypeList = () => {
         <HomeCard
           img="/icons/join-meeting.svg"
           title="Join Meeting"
-          description="via invitation link"
-          className="bg-md-secondary/10 border-md-secondary/20"
+          description="Via invitation link or call ID"
+          className="bg-gradient-to-br from-sky-600/25 via-[#10192e]/90 to-[#0e0c18] border-sky-500/30 hover:border-sky-400/60 hover:shadow-[0_12px_40px_rgba(14,165,233,0.25)]"
+          iconBgColor="bg-gradient-to-br from-sky-500 to-blue-600 shadow-sky-500/30"
           handleClick={() => setMeetingState("isJoiningMeeting")}
         />
       </motion.div>
@@ -114,8 +116,9 @@ const MeetingTypeList = () => {
         <HomeCard
           img="/icons/schedule.svg"
           title="Schedule Meeting"
-          description="Plan your meeting"
-          className="bg-md-tertiary/10 border-md-tertiary/20"
+          description="Plan ahead and invite members"
+          className="bg-gradient-to-br from-amber-600/25 via-[#251a14]/90 to-[#0e0c18] border-amber-500/30 hover:border-amber-400/60 hover:shadow-[0_12px_40px_rgba(245,158,11,0.25)]"
+          iconBgColor="bg-gradient-to-br from-amber-500 to-orange-600 shadow-amber-500/30"
           handleClick={() => setMeetingState("isScheduleMeeting")}
         />
       </motion.div>
@@ -123,8 +126,9 @@ const MeetingTypeList = () => {
         <HomeCard
           img="/icons/recordings.svg"
           title="View Recordings"
-          description="Meeting Recordings"
-          className="bg-md-error/10 border-md-error/20"
+          description="Access archived meeting tapes"
+          className="bg-gradient-to-br from-rose-600/25 via-[#26121c]/90 to-[#0e0c18] border-rose-500/30 hover:border-rose-400/60 hover:shadow-[0_12px_40px_rgba(244,63,94,0.25)]"
+          iconBgColor="bg-gradient-to-br from-rose-500 to-pink-600 shadow-rose-500/30"
           handleClick={() => router.push("/dashboard/recordings")}
         />
       </motion.div>
@@ -133,23 +137,24 @@ const MeetingTypeList = () => {
         <MeetingModal
           isOpen={meetingState === "isScheduleMeeting"}
           onClose={() => setMeetingState(undefined)}
-          title="Create Meeting"
+          title="Schedule a Meeting"
           handleClick={createMeeting}
         >
-          <div className="flex flex-col gap-2.5">
-            <label className="text-sm font-bold leading-none text-md-on-surface-variant peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Add a description
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
+              Meeting Description
             </label>
             <Textarea
-              className="bg-md-surface-container-low border-md-outline/20 text-md-on-surface rounded-xl focus:border-md-primary focus:ring-1 focus:ring-md-primary transition-all duration-300 min-h-[100px]"
+              placeholder="e.g. Weekly Product Sync"
+              className="bg-[#12101a] border-white/10 text-white placeholder:text-slate-500 rounded-2xl focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all min-h-[90px] p-3.5"
               onChange={(e) =>
                 setValues({ ...values, description: e.target.value })
               }
             />
           </div>
-          <div className="flex w-full flex-col gap-2.5">
-            <label className="text-sm font-bold leading-none text-md-on-surface-variant peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Select Date and Time
+          <div className="flex w-full flex-col gap-2">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-300">
+              Date and Time
             </label>
             <DatePicker
               selected={values.dateTime}
@@ -159,7 +164,7 @@ const MeetingTypeList = () => {
               timeIntervals={15}
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm aa"
-              className="w-full rounded-xl bg-md-surface-container-low border border-md-outline/20 text-md-on-surface p-3 focus:outline-none focus:border-md-primary focus:ring-1 focus:ring-md-primary transition-all duration-300"
+              className="w-full rounded-2xl bg-[#12101a] border border-white/10 text-white p-3.5 focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all font-medium text-sm"
             />
           </div>
         </MeetingModal>
@@ -167,10 +172,10 @@ const MeetingTypeList = () => {
         <MeetingModal
           isOpen={meetingState === "isScheduleMeeting"}
           onClose={() => setMeetingState(undefined)}
-          title="Meeting Created"
+          title="Meeting Scheduled!"
           handleClick={() => {
             navigator.clipboard.writeText(meetingLink);
-            toast("Link Copied");
+            toast("Link Copied to Clipboard");
           }}
           image={"/icons/checked.svg"}
           buttonIcon="/icons/copy.svg"
@@ -182,15 +187,15 @@ const MeetingTypeList = () => {
       <MeetingModal
         isOpen={meetingState === "isJoiningMeeting"}
         onClose={() => setMeetingState(undefined)}
-        title="Type the link here"
+        title="Join a Meeting"
         className="text-center"
-        buttonText="Join Meeting"
+        buttonText="Join Now"
         handleClick={() => router.push(values.link)}
       >
         <Input
-          placeholder="Meeting link"
+          placeholder="Paste meeting link here"
           onChange={(e) => setValues({ ...values, link: e.target.value })}
-          className="bg-md-surface-container-low border-md-outline/20 text-md-on-surface rounded-xl py-6 px-4 text-center focus:border-md-primary focus:ring-1 focus:ring-md-primary transition-all duration-300"
+          className="bg-[#12101a] border-white/10 text-white placeholder:text-slate-500 rounded-2xl py-6 px-4 text-center text-sm focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 transition-all"
         />
       </MeetingModal>
 

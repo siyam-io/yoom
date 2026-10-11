@@ -17,43 +17,43 @@
   --font-sans: var(--font-roboto);
   --font-mono: var(--font-roboto);
   
-  /* Material You Tokens (Dark Theme) */
-  --color-md-bg: #141218;
-  --color-md-on-bg: #E6E0E9;
-  --color-md-primary: #D0BCFF;
-  --color-md-on-primary: #381E72;
-  --color-md-secondary-container: #4A4458;
-  --color-md-on-secondary-container: #E8DEF8;
-  --color-md-tertiary: #EFB8C8;
-  --color-md-surface-container: #211F26;
-  --color-md-surface-container-low: #1D1B20;
-  --color-md-surface-container-high: #2B2930;
-  --color-md-surface-container-highest: #36343B;
-  --color-md-outline: #938F99;
-  --color-md-on-surface-variant: #CAC4D0;
-  --color-md-on-surface: #E6E0E9;
-  --color-md-error: #F2B8B5;
-  --color-md-on-error: #601410;
+  /* Premium Obsidian Theme Tokens */
+  --color-md-bg: #09080e;
+  --color-md-on-bg: #f8fafc;
+  --color-md-primary: #8b5cf6;
+  --color-md-on-primary: #ffffff;
+  --color-md-secondary-container: #1e1b2e;
+  --color-md-on-secondary-container: #ddd6fe;
+  --color-md-tertiary: #f59e0b;
+  --color-md-surface-container: #151320;
+  --color-md-surface-container-low: #0f0d17;
+  --color-md-surface-container-high: #1c182c;
+  --color-md-surface-container-highest: #26213b;
+  --color-md-outline: #334155;
+  --color-md-on-surface-variant: #94a3b8;
+  --color-md-on-surface: #f8fafc;
+  --color-md-error: #f43f5e;
+  --color-md-on-error: #ffffff;
 
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
+  --color-ring: #8b5cf6;
+  --color-input: #151320;
+  --color-border: rgba(255, 255, 255, 0.1);
   
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 28px;
-  --radius-2xl: 32px;
-  --radius-3xl: 48px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+  --radius-3xl: 36px;
 }
 
 :root {
-  --background: #141218;
-  --foreground: #E6E0E9;
-  --border: #938F99;
-  --input: #1D1B20;
-  --ring: #D0BCFF;
-  --radius: 24px;
+  --background: #09080e;
+  --foreground: #f8fafc;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: #151320;
+  --ring: #8b5cf6;
+  --radius: 20px;
 }
 
 @layer base {

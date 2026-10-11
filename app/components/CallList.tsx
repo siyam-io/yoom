@@ -134,7 +134,21 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
             );
           })
         ) : (
-          <h1 className="text-2xl font-bold text-md-on-bg">{noCallsMessage}</h1>
+          <div className="col-span-full flex flex-col items-center justify-center p-10 sm:p-14 rounded-3xl bg-[#13111c]/60 backdrop-blur-xl border border-white/10 text-center gap-4">
+            <div className="size-16 rounded-2xl bg-violet-600/15 border border-violet-500/25 flex items-center justify-center text-violet-400 shadow-lg">
+              <Film className="size-7" />
+            </div>
+            <div className="flex flex-col gap-1 max-w-md">
+              <h3 className="text-xl font-bold text-white">{noCallsMessage}</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                {type === 'recordings'
+                  ? 'Meetings recorded with the record button will automatically appear here.'
+                  : type === 'upcoming'
+                  ? 'No scheduled meetings right now. Start an instant meeting or schedule one from the dashboard.'
+                  : 'Your past meeting attendance and session history will be stored here.'}
+              </p>
+            </div>
+          </div>
         )}
       </div>
 

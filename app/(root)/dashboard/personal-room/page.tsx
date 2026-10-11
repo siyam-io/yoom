@@ -8,6 +8,7 @@ import { useGetCallById } from "@/hooks/useGetCallById";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+import { Copy, Sparkles, Check } from "lucide-react";
 import { useState } from "react";
 
 const Table = ({
@@ -16,28 +17,61 @@ const Table = ({
   isEditable = false,
   value,
   onChange,
+  onCopy,
 }: {
   title: string;
   description?: string;
   isEditable?: boolean;
   value?: string;
   onChange?: (val: string) => void;
+  onCopy?: () => void;
 }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (onCopy) {
+      onCopy();
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
-    <div className="flex flex-col items-start gap-3 xl:flex-row xl:items-center bg-md-surface-container-low p-5 rounded-2xl border border-md-outline/10 shadow-sm transition-all hover:bg-md-surface-container">
-      <h1 className="text-base font-bold text-md-on-surface-variant lg:text-lg xl:min-w-48">
-        {title}:
-      </h1>
-      {isEditable ? (
-        <input 
-          value={value}
-          onChange={(e) => onChange?.(e.target.value)}
-          className="w-full bg-md-bg border border-md-outline/20 focus:border-md-primary rounded-xl px-4 py-2.5 outline-none text-md-on-bg font-semibold text-sm lg:text-lg shadow-sm transition-all focus:ring-2 focus:ring-md-primary/20"
-        />
-      ) : (
-        <h1 className="break-all text-xs sm:text-sm md:text-base font-semibold text-md-on-surface select-all">
-          {description}
-        </h1>
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#13111c]/90 backdrop-blur-xl p-5 rounded-2xl border border-white/10 hover:border-white/20 transition-all shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-1 min-w-0 w-full">
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-400 sm:w-36 shrink-0">
+          {title}
+        </span>
+        {isEditable ? (
+          <input 
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            className="w-full bg-[#0c0a12] border border-white/10 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 rounded-xl px-4 py-2.5 outline-none text-white font-semibold text-sm transition-all"
+          />
+        ) : (
+          <span className="break-all text-sm font-semibold text-white/95 select-all truncate">
+            {description}
+          </span>
+        )}
+      </div>
+
+      {onCopy && (
+        <button
+          onClick={handleCopy}
+          className="shrink-0 p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all duration-200 cursor-pointer flex items-center gap-1.5 text-xs font-medium"
+        >
+          {copied ? (
+            <>
+              <Check className="size-3.5 text-emerald-400" />
+              <span className="text-emerald-400">Copied</span>
+            </>
+          ) : (
+            <>
+              <Copy className="size-3.5" />
+              <span>Copy</span>
+            </>
+          )}
+        </button>
       )}
     </div>
   );
@@ -77,35 +111,61 @@ const PersonalRoom = () => {
   const inviteText = `Join my Personal Meeting Room\nTopic: ${topic}\nLink: ${meetingLink}`;
 
   return (
-    <section className="flex size-full flex-col gap-8 sm:gap-10 text-md-on-bg">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl sm:text-3xl font-extrabold lg:text-4xl text-md-on-bg tracking-tight">Personal Meeting Room</h1>
-        <p className="text-md-on-surface-variant text-sm sm:text-base">Your dedicated, permanent meeting space. Share this link for instant meetings.</p>
+    <section className="flex size-full flex-col gap-8 text-white">
+      <div className="flex flex-col gap-1.5 pb-4 border-b border-white/5">
+        <div className="inline-flex items-center gap-2 text-xs font-semibold text-violet-400 uppercase tracking-widest mb-1">
+          <Sparkles className="size-3.5" />
+          <span>Instant Room</span>
+        </div>
+        <h1 className="text-3xl font-black lg:text-4xl text-white tracking-tight">
+          Personal Meeting Room
+        </h1>
+        <p className="text-slate-400 text-sm sm:text-base">
+          Your permanent, dedicated meeting link. Always active and ready for your team.
+        </p>
       </div>
       
-      <div className="flex w-full flex-col gap-3 sm:gap-4 xl:max-w-[900px]">
+      <div className="flex w-full flex-col gap-3.5 xl:max-w-[850px]">
         <Table 
           title="Topic" 
           isEditable={true} 
           value={topic} 
           onChange={setTopic} 
         />
-        <Table title="Meeting ID" description={meetingId!} />
-        <Table title="Invite Link" description={meetingLink} />
+        <Table 
+          title="Meeting ID" 
+          description={meetingId!} 
+          onCopy={() => {
+            navigator.clipboard.writeText(meetingId || '');
+            toast("Meeting ID Copied to Clipboard");
+          }}
+        />
+        <Table 
+          title="Invite Link" 
+          description={meetingLink} 
+          onCopy={() => {
+            navigator.clipboard.writeText(meetingLink);
+            toast("Invite Link Copied to Clipboard");
+          }}
+        />
       </div>
       
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
-        <Button className="bg-md-primary text-md-on-primary hover:bg-md-primary/90 rounded-full px-6 py-3.5 sm:px-8 sm:py-6 shadow-md active:scale-95 transition-all duration-300 font-bold text-base sm:text-lg w-full sm:w-auto" onClick={startRoom}>
+      <div className="flex flex-col sm:flex-row gap-3 pt-2">
+        <Button 
+          className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-2xl px-8 py-3.5 shadow-lg shadow-violet-600/30 active:scale-95 transition-all duration-200 font-bold text-base cursor-pointer w-full sm:w-auto h-auto" 
+          onClick={startRoom}
+        >
           Start Meeting
         </Button>
         <Button
-          className="bg-md-surface-container-low text-md-on-surface-variant hover:bg-md-on-surface-variant/10 hover:text-md-on-surface rounded-full px-6 py-3.5 sm:px-8 sm:py-6 border border-md-outline/20 active:scale-95 transition-all duration-300 font-bold text-base sm:text-lg shadow-sm w-full sm:w-auto"
+          className="bg-white/5 hover:bg-white/10 text-white rounded-2xl px-6 py-3.5 border border-white/10 active:scale-95 transition-all duration-200 font-semibold text-base cursor-pointer w-full sm:w-auto h-auto flex items-center justify-center gap-2"
           onClick={() => {
             navigator.clipboard.writeText(inviteText);
-            toast("Invitation Copied to Clipboard");
+            toast("Full Invitation Copied to Clipboard");
           }}
         >
-          Copy Invitation
+          <Copy className="size-4" />
+          <span>Copy Full Invitation</span>
         </Button>
       </div>
     </section>
